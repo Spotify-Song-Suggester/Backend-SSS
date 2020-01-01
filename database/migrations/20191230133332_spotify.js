@@ -10,7 +10,6 @@ exports.up = function(knex) {
 		.createTable('songs', (songs) => {
 			songs.increments();
 			songs.string('artist', 128).notNullable();
-			songs.string('artist', 128).notNullable();
 			songs.string('genre', 128).notNullable();
 			songs.string('title', 255).notNullable();
 			songs.string('album', 255).notNullable();
@@ -28,7 +27,7 @@ exports.up = function(knex) {
 				.onUpdate('CASCADE'); // foriegn key connecting to users table
 
 			favs
-				.integer('song_id', 68)
+				.integer('songs_id', 68)
 				.unsigned()
 				.notNullable()
 				.references('id')
