@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const authenticate = require('../helpers/auth/auth-middleware');
 const authRouter = require('../helpers/auth/auth-router');
 const songRouter = require('../helpers/DS-songs/songs');
+const songsRouter2 = require('../helpers/songs/songs-router');
 const server = express();
 
 function logger(req, res, next) {
@@ -19,7 +20,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use('/api/auth', authRouter);
-server.use('/api/songs', authenticate, songRouter);
+server.use('/api/songs', authenticate, songsRouter2);
 
 server.get('/', (req, res) => {
 	res.send('SHE WORKS!');
