@@ -3,9 +3,9 @@ exports.up = function(knex) {
 		.createTable('users', (users) => {
 			users.increments();
 
+			users.string('email', 255).notNullable().unique();
 			users.string('username', 255).notNullable().unique();
 			users.string('password', 255).notNullable();
-			users.string('name', 255).notNullable();
 		})
 		.createTable('songs', (songs) => {
 			songs.increments();
@@ -15,8 +15,7 @@ exports.up = function(knex) {
 			songs.string('album', 255).notNullable();
 		})
 		.createTable('favorites', (favs) => {
-			favs.increments();
-
+			favs.primary([ 'users_id', 'songs_id' ]);
 			favs
 				.integer('users_id', 68)
 				.unsigned()
