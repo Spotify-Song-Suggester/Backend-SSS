@@ -1,6 +1,7 @@
 const express = require('express');
 const Songs = require('./songs-model');
 const router = express.Router();
+const { authenticate } = require('../auth/auth-middleware');
 // const axios = require('axios');
 
 // gets all the songs
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 // gets the favorite songs with the specific user ID
-router.get('/:id/favorites', (req, res) => {
+router.get('/:id/favorites', authenticate, (req, res) => {
 	const id = req.params.id;
 	Songs.getFavSongs(id)
 		.then((songs) => {
@@ -27,7 +28,7 @@ router.get('/:id/favorites', (req, res) => {
 		});
 });
 //tells me unable to add song to favorites, do i need the api?
-router.post('/save', (req, res) => {
+router.post('/save', authenticate, (req, res) => {
 	const songs_id = req.body.songs_id;
 	const users_id = req.users;
 	// axios
@@ -48,7 +49,7 @@ router.post('/add', (req, res) => {
 	const songs = req.body;
 	Songs.addFavSongs(songs)
 		.then((songs) => {
-			res.status(200).jsom(songs);
+			res.status(200).json(songs);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -73,10 +74,10 @@ router.post('/add', (req, res) => {
 // 		});
 // });
 //this delete does not think I am logged in when I delete
-router.delete('/:id/favorites/:songs_id', (req, res) => {
+router.delete('/:id/favorites/:songs_id', authenticate, (req, res) => {
 	const id = req.params.id;
 	const songs_id = req.params.songs_id;
-	if (id == req.users_id) {
+	if (id === req.users_id) {
 		Songs.deleteFavSongs(id, songs_id)
 			.then(() => res.status(200).json({ message: 'Song deleted from favorites!' }))
 			.catch((err) => console.log(err));

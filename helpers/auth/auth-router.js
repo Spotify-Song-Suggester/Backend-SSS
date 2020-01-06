@@ -38,6 +38,18 @@ router.post('/login', (req, res) => {
 		});
 });
 
+router.delete('/:id', (req, res) => {
+	const id = req.params.id;
+	if (id == req.users.id) {
+		db
+			.deleteAccount(id)
+			.then(() => res.status(200).json({ message: 'Account deleted.' }))
+			.catch((err) => console.log(err));
+	} else {
+		return res.status(403).json({ message: 'You must be logged into the account to delete it' });
+	}
+});
+
 function signToken(user) {
 	const payload = {
 		username : user.username,
