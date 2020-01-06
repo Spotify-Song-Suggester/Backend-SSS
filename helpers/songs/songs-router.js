@@ -1,7 +1,7 @@
 const express = require('express');
 const Songs = require('./songs-model');
 const router = express.Router();
-const { authenticate } = require('../auth/auth-middleware');
+const authenticate = require('../auth/auth-middleware');
 // const axios = require('axios');
 
 // gets all the songs
