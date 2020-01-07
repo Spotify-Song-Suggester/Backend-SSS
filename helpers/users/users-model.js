@@ -26,5 +26,5 @@ function findById(id) {
 	return database('users').where({ id }).first();
 }
 function deleteAccount(id) {
-	return db('accounts').where({ id }).del();
+	return database('users').where({ id }).del();
 }
