@@ -49,27 +49,24 @@ No input needed.
 | GET   | /api/songs |
     
     Output:
-    {
+      {
     id: 1,
     artist: "Adele",
-    genre: "Country",
-    title: "Chasing Pavements",
-    album: "19"
-     },
-      {
-    id: 2,
-    artist: "CHIKA",
-    genre: "Rap",
-    title: "High Rises",
-    album: "High Rises"
+    track: "Chasing Pavements",
+    danceability: "0.78",
+    energy: "0.87",
+    key: "9",
+    loudness: "0.87",
+    mode: "1",
+    speechiness: "0.87",
+    acousticness: "0.87",
+    instrumentalness: "0.87",
+    liveness: "0.87",
+    valence: "0.87",
+    tempo: "0.87",
+    duration_ms: "0.87",
+    time_signature: "4"
     },
-    {
-    id: 3,
-    artist: "Chance the Rapper",
-    genre: "Rap",
-    title: "Pusha Man",
-    album: "Acid Rap"
-    }
 
  #   
 ## Favorite songs
@@ -84,15 +81,26 @@ No input needed.
 | GET   | /api/songs/:id/favorites |
     
     Output:
-    {
-    users_id: (the id of the user),
-    songs_id: (the id of the song),
-    id: (id of the output),
-    artist: (artist name),
-    genre: (genre name),
-    title: (title of song),
-    album: (album title)
-    },
+     {
+    users_id: 4,
+    songs_id: 3,
+    id: 3,
+    artist: "Chance the Rapper",
+    track: "Pusha Man",
+    danceability: "0.78",
+    energy: "0.87",
+    key: "9",
+    loudness: "0.87",
+    mode: "1",
+    speechiness: "0.87",
+    acousticness: "0.87",
+    instrumentalness: "0.87",
+    liveness: "0.87",
+    valence: "0.87",
+    tempo: "0.87",
+    duration_ms: "0.87",
+    time_signature: "4"
+    }
 
 ## Save Favorite Songs
 ## GET api/songs/save
@@ -108,11 +116,22 @@ User can save songs
     } 
     
     Output: 
-    {id: 3,
+    id: 3,
     artist: "Chance the Rapper",
-    genre: "Rap",
-    title: "Pusha Man",
-    album: "Acid Rap"
+    track: "Pusha Man",
+    danceability: "0.78",
+    energy: "0.87",
+    key: "9",
+    loudness: "0.87",
+    mode: "1",
+    speechiness: "0.87",
+    acousticness: "0.87",
+    instrumentalness: "0.87",
+    liveness: "0.87",
+    valence: "0.87",
+    tempo: "0.87",
+    duration_ms: "0.87",
+    time_signature: "4"
     }
 # 
 
