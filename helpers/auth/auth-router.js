@@ -38,16 +38,18 @@ router.post('/login', (req, res) => {
 		});
 });
 
-// router.delete('/:id', (req, res) => {
-// 	const id = req.params.id;
-// 	if (id == req.users.id) {
-// 		Users.deleteAccount(id)
-// 			.then(() => res.status(200).json({ message: 'Account deleted.' }))
-// 			.catch((err) => console.log(err));
-// 	} else {
-// 		res.status(403).json({ message: 'You must be logged into the account to delete it' });
-// 	}
-// });
+router.delete('/:id', async (req, res) => {
+	const id = req.params.id;
+	const user = await Users.findById(id);
+
+	if (user) {
+		Users.deleteAccount(id)
+			.then(() => res.status(200).json({ message: 'Account deleted.' }))
+			.catch((err) => console.log(err));
+	} else {
+		res.status(403).json({ errorMessage: 'Could not delete account.' });
+	}
+});
 
 function signToken(user) {
 	const payload = {
