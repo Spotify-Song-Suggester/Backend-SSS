@@ -44,7 +44,7 @@ Signs user in and returns a JSON web token
 ## PUT api/auth/:id
 User can update profile infomation. 
 
-Must be logged in to update profile. 
+Must be logged in to update profile and 
 
 # 
 | Method | Endpoint      |
