@@ -35,6 +35,8 @@ Signs user in and returns a JSON web token
 	password: "password1" (string required) 
     
     Output:
+    id: "id of user",
+    username: "username of user",
     token: "JSON webtoken returned"
     message: "Welcome to Spotify Song Suggester {username of user}!"
 ## Gets All Songs
@@ -103,7 +105,7 @@ No input needed.
     }
 
 ## Save Favorite Songs
-## GET api/songs/save
+## POST api/songs/save
 User can save songs
 # 
 | Method | Endpoint      |

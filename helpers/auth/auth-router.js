@@ -2,6 +2,7 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Users = require('../users/users-model');
+const authenticate = require('../auth/auth-middleware');
 
 router.post('/register', (req, res) => {
 	let user = req.body;
@@ -25,8 +26,10 @@ router.post('/login', (req, res) => {
 			if (user && bcrypt.compareSync(password, user.password)) {
 				const token = signToken(user);
 				res.status(200).json({
+					id       : user.id,
+					username,
 					token,
-					message : `Welcome to Spotify Song Suggester ${user.username}!`,
+					message  : `Welcome to Spotify Song Suggester ${user.username}!`,
 				});
 			} else {
 				res.status(401).json({ message: 'Invalid Credentials' });
@@ -49,6 +52,26 @@ router.delete('/:id', async (req, res) => {
 	} else {
 		res.status(403).json({ errorMessage: 'Could not delete account.' });
 	}
+});
+
+router.put('/:id', authenticate, (req, res) => {
+	const users_id = req.params.users_id;
+	const userInfo = req.body;
+	if (users_id) {
+		Users.editAccount(users_id, userInfo)
+			.then(() => res.status(200).json({ message: 'Account information successfully updated.' }))
+			.catch((err) => console.log(err));
+	} else {
+		return res.status(403).json({ message: 'You must be logged into the account you wish to edit.' });
+	}
+});
+
+router.get('/', authenticate, (req, res) => {
+	Users.find()
+		.then((users) => {
+			res.json(users);
+		})
+		.catch((err) => res.send(err));
 });
 
 function signToken(user) {

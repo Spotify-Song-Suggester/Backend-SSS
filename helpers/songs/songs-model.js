@@ -4,9 +4,9 @@ module.exports = {
 	getSongs,
 	findById,
 	associateSongAccount,
-	// updateFavSongs,
 	getFavSongs,
 	deleteSongsFromFav,
+	findByIdFavorites,
 };
 
 function getSongs() {
@@ -25,14 +25,6 @@ function getSongs() {
 // }
 // insert into favorites (users_id, songs_id)
 // values(1,1)
-
-//join
-
-// function addFavSongs(songs, users_id, songs_id) {
-// 	return db('songs').insert(songs).returning('id').then((ids) => {
-// 		return associateSongAccount(ids[0], users_id, songs_id);
-// 	});
-// }
 
 function findById(id) {
 	return db('songs').where('id', id).first();
@@ -56,5 +48,9 @@ function getFavSongs(id) {
 // delete from favorites where songs_id = 1 and users_id = 1
 
 function deleteSongsFromFav(users_id, songs_id) {
-	return db('favorites').select().where({ users_id, favorites: songs_id }).limit(1).first().del();
+	return db('favorites').where({ users_id, songs_id }).limit(1).delete();
+}
+
+function findByIdFavorites(users_id, songs_id) {
+	return db('favorites').where({ users_id, songs_id }).first();
 }

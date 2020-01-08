@@ -57,33 +57,18 @@ router.post('/save', authenticate, (req, res) => {
 			res.status(500).json({ errorMessage: 'Unable to save the song to your favorites list.' });
 		});
 });
-// delete does not work
-// router.delete('/:id', (req, res) => {
-// 	Songs.deleteFavSongs(req.params.id)
-// 		.then((count) => {
-// 			if (count > 0) {
-// 				res.status(200).json({ message: 'The song has been removed from your favorites.' });
-// 			} else {
-// 				res.status(400).json({ errorMessage: 'The post with the specified ID does not exist.' });
-// 			}
-// 		})
-// 		.catch((error) => {
-// 			console.log(error);
-// 			res.status(500).json({
-// 				message : 'The song could not be removed',
-// 			});
-// 		});
-// });
-//this delete does not think I am logged in when I delete
-router.delete('/:id/favorites/:songs_id', authenticate, (req, res) => {
-	const id = req.params.id;
+
+router.delete('/:users_id/favorites/:songs_id', authenticate, async (req, res) => {
+	const users_id = req.params.users_id;
 	const songs_id = req.params.songs_id;
-	if (id === req.users_id) {
-		Songs.deleteSongsFromFav(id, songs_id)
+	const favorites = await Songs.findByIdFavorites(users_id, songs_id);
+	console.log(favorites);
+	if (favorites) {
+		Songs.deleteSongsFromFav(users_id, songs_id)
 			.then(() => res.status(200).json({ message: 'Song deleted from favorites!' }))
 			.catch((err) => console.log(err));
 	} else {
-		return res.status(403).json({ message: 'You must be logged in to delete songs from your favorites list.' });
+		return res.status(403).json({ errorMessage: 'You must be logged in to delete songs from your favorites list.' });
 	}
 });
 
