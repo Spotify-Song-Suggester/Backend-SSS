@@ -30,6 +30,10 @@ function deleteAccount(id) {
 	return database('users').where({ id }).del();
 }
 
-function editAccount(id, userInfo) {
-	return database('users').where({ id }).update(userInfo);
+// function editAccount(users_id, userInfo) {
+// 	return database('users').where({ users_id }).update(userInfo);
+// }
+
+function editAccount(id, user) {
+	return database('users').where('id', Number(id)).update(user);
 }

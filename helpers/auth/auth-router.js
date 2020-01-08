@@ -54,16 +54,41 @@ router.delete('/:id', async (req, res) => {
 	}
 });
 
-router.put('/:id', authenticate, (req, res) => {
-	const users_id = req.params.users_id;
-	const userInfo = req.body;
-	if (users_id) {
-		Users.editAccount(users_id, userInfo)
-			.then(() => res.status(200).json({ message: 'Account information successfully updated.' }))
-			.catch((err) => console.log(err));
-	} else {
-		return res.status(403).json({ message: 'You must be logged into the account you wish to edit.' });
+// router.put('/:id', authenticate, (req, res) => {
+// 	const users_id = req.params.users_id;
+// 	const userInfo = req.body;
+// 	if (users_id) {
+// 		Users.editAccount(users_id, userInfo)
+// 			.then(() => res.status(200).json({ message: 'Account information successfully updated.' }))
+// 			.catch((err) => console.log(err));
+// 	} else {
+// 		return res.status(403).json({ message: 'You must be logged into the account you wish to edit.' });
+// 	}
+// });
+
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	let { username, password } = req.body;
+	const hash = bcrypt.hashSync(password, 10);
+	password = hash;
+	if (!username || !password) {
+		return res.status(400).json({ error: 'Please provide username and password for the user.' });
 	}
+	Users.editAccount(id, { username, password })
+		.then((updated) => {
+			if (updated) {
+				Users.findById(id).then((user) => res.status(200).json(user)).catch((err) => {
+					console.log(err);
+					res.status(500).json({ error: 'The user informatmion could not be retrieved.' });
+				});
+			} else {
+				res.status(404).json({ error: `The user with the specified ID does not exist.` });
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			res.status(500).json({ error: 'The user information could not be modified.' });
+		});
 });
 
 router.get('/', authenticate, (req, res) => {
