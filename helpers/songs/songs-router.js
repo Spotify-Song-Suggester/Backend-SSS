@@ -62,13 +62,12 @@ router.delete('/:users_id/favorites/:songs_id', authenticate, async (req, res) =
 	const users_id = req.params.users_id;
 	const songs_id = req.params.songs_id;
 	const favorites = await Songs.findByIdFavorites(users_id, songs_id);
-	console.log(favorites);
 	if (favorites) {
 		Songs.deleteSongsFromFav(users_id, songs_id)
 			.then(() => res.status(200).json({ message: 'Song deleted from favorites!' }))
 			.catch((err) => console.log(err));
 	} else {
-		return res.status(403).json({ errorMessage: 'You must be logged in to delete songs from your favorites list.' });
+		return res.status(403).json({ errorMessage: 'Song ID does not exist in favorites list.' });
 	}
 });
 
