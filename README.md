@@ -15,7 +15,7 @@ Creates a new account for the user
     email : "email@mail.com", (string required, unique) 
 	username: "name123", (string required, unique)
 	password: "password1" (string required) 
-    
+
     Output:
     id: 5,
     email: "email@mail.com",
@@ -39,6 +39,27 @@ Signs user in and returns a JSON web token
     username: "username of user",
     token: "JSON webtoken returned"
     message: "Welcome to Spotify Song Suggester {username of user}!"
+# 
+## Updates Profile
+## PUT api/auth/:id
+User can update profile infomation. 
+
+Must be logged in to update profile. 
+
+# 
+| Method | Endpoint      |
+| - | - |
+| PUT   | /api/auth/:id | 
+    Input: 
+	username: "user",
+	password: "user"
+    
+    Output: 
+    username: "updated username",
+	password: "updated password"
+    
+
+# 
 ## Gets All Songs
 ## GET api/songs
 Signed in user can view all songs
@@ -51,7 +72,6 @@ No input needed.
 | GET   | /api/songs |
     
     Output:
-      {
     id: 1,
     artist: "Adele",
     track: "Chasing Pavements",
@@ -68,7 +88,6 @@ No input needed.
     tempo: "0.87",
     duration_ms: "0.87",
     time_signature: "4"
-    },
 
  #   
 ## Favorite songs
@@ -83,7 +102,6 @@ No input needed.
 | GET   | /api/songs/:id/favorites |
     
     Output:
-     {
     users_id: 4,
     songs_id: 3,
     id: 3,
@@ -102,7 +120,7 @@ No input needed.
     tempo: "0.87",
     duration_ms: "0.87",
     time_signature: "4"
-    }
+    
 
 ## Save Favorite Songs
 ## POST api/songs/save
@@ -112,10 +130,8 @@ User can save songs
 | - | - |
 | POST   | /api/songs/save | 
     Input:
-    {
 	users_id: (integer),
 	songs_id: (integer, unique (cannot save same song twice))
-    } 
     
     Output: 
     id: 3,
@@ -134,7 +150,23 @@ User can save songs
     tempo: "0.87",
     duration_ms: "0.87",
     time_signature: "4"
-    }
+    
+# 
+## Delete Favorite Songs
+## DEL api/songs/:users_id/favorites/songs_id
+User can delete songs from favorites list
+
+No input needed. 
+
+GET api/songs/:id/favorites will be automatically updated with new favorites list. 
+# 
+| Method | Endpoint      |
+| - | - |
+| DEL   | /api/songs/:users_id/favorites/songs_id | 
+    Output: 
+    message: "Song deleted from favorites!"
+    
+    Output if song does not exist in favorites list: "Song ID does not exist in favorites list."
 # 
 
 
