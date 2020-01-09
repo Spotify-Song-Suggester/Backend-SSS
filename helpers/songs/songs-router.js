@@ -4,18 +4,44 @@ const router = express.Router();
 const authenticate = require('../auth/auth-middleware');
 const axios = require('axios');
 
-router.get('/', (req, res) => {
-	// const track_id = req.body.track_id;
-	axios.get(`https://spotify-song-suggestor.herokuapp.com/request(12)`).then((res) => {
-		Songs.getSongs()
-			.then((songs) => {
-				res.json(songs);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.status(500).json({ message: 'Failed to get songs' });
+router.get('/:id', async (req, res) => {
+	try {
+		const id = req.params.id;
+		const data = await axios.get(`https://spotify-song-suggestor.herokuapp.com/request/${id}`);
+		const results = data.data.results[0].map((songId) => {
+			Songs.findById(songId).then((song) => {
+				console.log(songId);
+				console.log(song);
+				return song;
 			});
-	});
+		});
+		res.json(results);
+	} catch (error) {
+		res.status(500).json(error);
+	}
+	// axios
+	// 	.get(`https://spotify-song-suggestor.herokuapp.com/request/${id}`)
+	// 	.then((data) => {
+	// 		console.log(data.data.results[0]);
+	// 		const results = data.data.results[0].map(songId => {
+	// 			return await Songs.findById(songId)
+	// 		});
+
+	// 		res.json(results);
+
+	// 		// Songs.getSongs()
+	// 		// 	.then((songs) => {
+	// 		// 		res.json(songs);
+	// 		// 	})
+	// 		// 	.catch((err) => {
+	// 		// 		console.log(err);
+	// 		// 		res.status(500).json({ message: 'Failed to get songs' });
+	// 		// 	});
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err);
+	// 		res.status(500).json(err);
+	// 	});
 });
 
 // router.post('/track', (req, res) => {
