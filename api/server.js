@@ -22,8 +22,12 @@ server.use(express.json());
 server.use('/api/auth', authRouter);
 server.use('/api/songs', authenticate, songsRouter2);
 
+// server.get('/', (req, res) => {
+// 	res.send('SHE WORKS!');
+// });
+
 server.get('/', (req, res) => {
-	res.send('SHE WORKS!');
+	res.status(200).json({ api: 'SHE WORKS!', dbenv: process.env.DB_ENV });
 });
 
 module.exports = server;

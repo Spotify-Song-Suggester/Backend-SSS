@@ -15,15 +15,15 @@ describe('server.js', function() {
 				expect(res.status).toBe(200);
 			});
 		});
-		// it('should return JSON', function() {
-		// 	return request(server).get('/').then((res) => {
-		// 		expect(res.type).toMatch(/json/i);
-		// 	});
-		// });
-		// it("should return {api: 'SHE WORKS!'}", function() {
-		// 	return request(server).get('/').then((res) => {
-		// 		expect(res.body.api).toBe('SHE WORKS!');
-		// 	});
-		//});
+		it('should return JSON', function() {
+			return request(server).get('/').then((res) => {
+				expect(res.type).toMatch(/json/i);
+			});
+		});
+		it("should return {api: 'SHE WORKS!'}", function() {
+			return request(server).get('/').then((res) => {
+				expect(res.body.api).toBe('SHE WORKS!');
+			});
+		});
 	});
 });
