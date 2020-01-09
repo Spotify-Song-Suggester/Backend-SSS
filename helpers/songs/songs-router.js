@@ -3,72 +3,33 @@ const Songs = require('./songs-model');
 const router = express.Router();
 const authenticate = require('../auth/auth-middleware');
 const axios = require('axios');
+const songData = require('../../database/db_v2.json');
+
+router.get('/', (req, res) => {
+	const firstFifty = songData.slice(0, 51);
+	console.log(firstFifty);
+	res.status(200).json(firstFifty);
+});
 
 router.get('/:id', async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = await axios.get(`https://spotify-song-suggestor.herokuapp.com/request/${id}`);
+		console.log(data.data.results[0]);
 		const results = data.data.results[0].map((songId) => {
-			Songs.findById(songId).then((song) => {
-				console.log(songId);
-				console.log(song);
-				return song;
-			});
+			return songData.filter((item) => {
+				return item.id === songId;
+			})[0];
 		});
-		res.json(results);
+		res.json(
+			results.filter((result) => {
+				return result != null;
+			}),
+		);
 	} catch (error) {
 		res.status(500).json(error);
 	}
-	// axios
-	// 	.get(`https://spotify-song-suggestor.herokuapp.com/request/${id}`)
-	// 	.then((data) => {
-	// 		console.log(data.data.results[0]);
-	// 		const results = data.data.results[0].map(songId => {
-	// 			return await Songs.findById(songId)
-	// 		});
-
-	// 		res.json(results);
-
-	// 		// Songs.getSongs()
-	// 		// 	.then((songs) => {
-	// 		// 		res.json(songs);
-	// 		// 	})
-	// 		// 	.catch((err) => {
-	// 		// 		console.log(err);
-	// 		// 		res.status(500).json({ message: 'Failed to get songs' });
-	// 		// 	});
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log(err);
-	// 		res.status(500).json(err);
-	// 	});
 });
-
-// router.post('/track', (req, res) => {
-// 	const track_id = req.body.track_id;
-// 	axios
-// 		.get(`https://spotify-song-suggestor.herokuapp.com/${track_id}`)
-// 		.then((response) => {
-// 			return res.json(response.data);
-// 		})
-// 		.catch((err) => {
-// 			console.log(err);
-// 			res.status(500).json({ message: 'Unable to get suggested songs', error: err });
-// 		});
-// });
-
-router.get('/:id/favorites', authenticate, (req, res) => {
-	const id = req.params.id;
-	// axios.get(`https://spotify-song-suggestor.herokuapp.com/${id}`).then((res) => {
-	Songs.getFavSongs(id)
-		.then((songs) => {
-			res.status(200).json(songs);
-		})
-		.catch((err) => {
-			res.status(500).json(err);
-		});
-});
-// });
 
 router.post('/save', authenticate, (req, res) => {
 	const favorite = req.body;
@@ -80,6 +41,17 @@ router.post('/save', authenticate, (req, res) => {
 		.catch((err) => {
 			console.log(err);
 			res.status(500).json({ errorMessage: 'Unable to save the song to your favorites list.' });
+		});
+});
+
+router.get('/:id/favorites', authenticate, (req, res) => {
+	const id = req.params.id;
+	Songs.getFavSongs(id)
+		.then((songs) => {
+			res.status(200).json(songs);
+		})
+		.catch((err) => {
+			res.status(500).json(err);
 		});
 });
 

@@ -9,21 +9,22 @@ exports.up = function(knex) {
 		})
 		.createTable('songs', (songs) => {
 			songs.increments();
-			songs.string('artist', 128).notNullable();
-			songs.string('track', 255).notNullable();
-			songs.string('danceability', 128).notNullable();
-			songs.string('energy', 128).notNullable();
-			songs.string('key', 128).notNullable();
-			songs.string('loudness', 128).notNullable();
-			songs.string('mode', 128).notNullable();
-			songs.string('speechiness', 128).notNullable();
-			songs.string('acousticness', 128).notNullable();
-			songs.string('instrumentalness', 128).notNullable();
-			songs.string('liveness', 128).notNullable();
-			songs.string('valence', 128).notNullable();
-			songs.string('tempo', 128).notNullable();
-			songs.string('duration_ms', 128).notNullable();
-			songs.string('time_signature', 128).notNullable();
+			songs.string('songid', 128);
+			songs.string('artist', 128);
+			songs.string('track', 255);
+			songs.float('danceability');
+			songs.float('energy');
+			songs.integer('key');
+			songs.float('loudness');
+			songs.integer('mode');
+			songs.float('speechiness');
+			songs.float('acousticness');
+			songs.float('instrumentalness');
+			songs.float('liveness');
+			songs.float('valence');
+			songs.float('tempo');
+			songs.integer('duration_ms');
+			songs.integer('time_signature');
 		})
 		.createTable('favorites', (favs) => {
 			favs.primary([ 'users_id', 'songs_id' ]);

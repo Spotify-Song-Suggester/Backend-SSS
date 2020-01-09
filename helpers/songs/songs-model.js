@@ -39,10 +39,6 @@ function getFavSongs(id) {
 	return db('favorites').select().where({ users_id: id }).join('songs', 'songs_id', 'songs.id');
 }
 
-// function deleteFavSongs(id) {
-// 	return db('favorites').delete().where({ id });
-// }
-
 //delete from favorites where songs_id = 1
 //OR
 // delete from favorites where songs_id = 1 and users_id = 1
