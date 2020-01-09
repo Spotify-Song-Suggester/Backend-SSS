@@ -2,8 +2,8 @@ const express = require('express');
 const Songs = require('./songs-model');
 const router = express.Router();
 const authenticate = require('../auth/auth-middleware');
-const axios = require('axios');
-const songData = require('../../database/db_v2.json');
+//const axios = require('axios');
+//const songData = require('../../database/db_v2.json');
 
 router.get('/', (req, res) => {
 	const firstFifty = songData.slice(0, 51);
@@ -11,25 +11,25 @@ router.get('/', (req, res) => {
 	res.status(200).json(firstFifty);
 });
 
-router.get('/:id', async (req, res) => {
-	try {
-		const id = req.params.id;
-		const data = await axios.get(`https://spotify-song-suggestor.herokuapp.com/request/${id}`);
-		console.log(data.data.results[0]);
-		const results = data.data.results[0].map((songId) => {
-			return songData.filter((item) => {
-				return item.id === songId;
-			})[0];
-		});
-		res.json(
-			results.filter((result) => {
-				return result != null;
-			}),
-		);
-	} catch (error) {
-		res.status(500).json(error);
-	}
-});
+// router.get('/:id', async (req, res) => {
+// 	try {
+// 		const id = req.params.id;
+// 		const data = await axios.get(`https://spotify-song-suggestor.herokuapp.com/request/${id}`);
+// 		console.log(data.data.results[0]);
+// 		const results = data.data.results[0].map((songId) => {
+// 			return songData.filter((item) => {
+// 				return item.id === songId;
+// 			})[0];
+// 		});
+// 		res.json(
+// 			results.filter((result) => {
+// 				return result != null;
+// 			}),
+// 		);
+// 	} catch (error) {
+// 		res.status(500).json(error);
+// 	}
+// });
 
 router.post('/save', authenticate, (req, res) => {
 	const favorite = req.body;
