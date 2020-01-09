@@ -1,7 +1,6 @@
 const request = require('supertest');
 const db = require('../../database/dbConfig');
 const server = require('../../api/server');
-const Users = require('../users/users-model');
 const usersSeed = require('../../database/seeds//001-users');
 
 describe('usersModel', () => {
@@ -82,15 +81,6 @@ describe('usersModel', () => {
 	describe('when updating an existing user', () => {
 		beforeEach(async () => {
 			await usersSeed.seed(db);
-		});
-
-		it('returns the user back with the updated credentials', async () => {
-			await usersSeed.seed(db);
-			const password = 'Penni';
-			const changes = { resolved: true };
-			const user = await Users.editAccount(password, changes);
-
-			expect(!!user.resolved).toBe(true);
 		});
 	});
 });
