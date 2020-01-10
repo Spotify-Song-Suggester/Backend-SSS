@@ -2,7 +2,7 @@ const db = require('../../database/dbConfig');
 
 describe('songsModel', () => {
 	beforeEach(async () => {
-		await db('songs').truncate();
+		await db('songs');
 	});
 
 	const song = {
