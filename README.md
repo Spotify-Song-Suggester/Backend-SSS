@@ -60,11 +60,13 @@ Must be logged in to update profile and
     
 
 # 
-## Gets All Songs
+## Gets First Fifty Songs
 ## GET api/songs
 Signed in user can view all songs
 
 No input needed.
+
+Returns the first 50 songs ONLY. 
 # 
 
 | Method | Endpoint      |
@@ -72,25 +74,26 @@ No input needed.
 | GET   | /api/songs |
     
     Output:
-    id: 1,
-    artist: "Adele",
-    track: "Chasing Pavements",
-    danceability: "0.78",
-    energy: "0.87",
-    key: "9",
-    loudness: "0.87",
-    mode: "1",
-    speechiness: "0.87",
-    acousticness: "0.87",
-    instrumentalness: "0.87",
-    liveness: "0.87",
-    valence: "0.87",
-    tempo: "0.87",
-    duration_ms: "0.87",
-    time_signature: "4"
+    id: 0,
+    songid: "5PS5dpaLogPzYU9hWiWyZb",
+    artist: "Karkkiautomaatti",
+    track: "Tanssi vaan",
+    danceability: 0.487,
+    energy: 0.678,
+    key: 9,
+    loudness: -7.78,
+    mode: 1,
+    speechiness: 0.0495,
+    acousticness: 0.0013,
+    instrumentalness: 0.0551,
+    liveness: 0.0846,
+    valence: 0.87,
+    tempo: 149.94,
+    duration_ms: 157307,
+    time_signature: 4
 
  #   
-## Favorite songs
+## Gets Favorite songs
 ## GET api/songs/:id/favorites
 Specific user favorites show up.
 
@@ -121,7 +124,37 @@ No input needed.
     duration_ms: "0.87",
     time_signature: "4"
     
+ #   
+## Gets Recommended Songs
+## GET /:id/recommendation
+Will get recommended songs based on the ID of the song. 
 
+No input needed.
+# 
+
+| Method | Endpoint      |
+| - | - |
+| GET   | api/songs/:id(of the song)/recommendation |
+    
+    Output:
+    "id": 1,
+    "songid": "41RpZW2lxAdnqDd2nMBzLQ",
+    "artist": "Hudson Mohawke",
+    "track": "No One Could Ever",
+    "danceability": 0.662,
+    "energy": 0.823,
+    "key": 4,
+    "loudness": -1.711,
+    "mode": 0,
+    "speechiness": 0.0662,
+    "acousticness": 0.0000454,
+    "instrumentalness": 0.952,
+    "liveness": 0.343,
+    "valence": 0.621,
+    "tempo": 177.745,
+    "duration_ms": 138960,
+    "time_signature": 4
+# 
 ## Save Favorite Songs
 ## POST api/songs/save
 User can save songs
