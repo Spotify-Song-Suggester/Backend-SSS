@@ -1,7 +1,4 @@
-const Songs = require('./songs-model');
-
 const db = require('../../database/dbConfig');
-const server = require('../../api/server');
 
 describe('songsModel', () => {
 	beforeEach(async () => {
@@ -27,7 +24,6 @@ describe('songsModel', () => {
 		duration_ms      : 138960,
 		time_signature   : 4,
 	};
-	// makes sure it is a string - sanity test with Number
 	describe('songs', () => {
 		it('songs is not empty', () => {
 			expect(song).toMatchObject({
@@ -60,7 +56,6 @@ describe('songs', () => {
 		duration_ms      : 138960,
 		time_signature   : 4,
 	};
-	// checks to see if the user property exists
 	it('does the literal word artist exist', () => {
 		expect(song).toHaveProperty('artist');
 	});
@@ -82,7 +77,6 @@ describe('favoritesModel', () => {
 		users_id : 1,
 		songs_id : 1,
 	};
-	// makes sure it is a number - sanity test with string
 	describe('favorites', () => {
 		it('favorites is not empty', () => {
 			expect(favorites).toMatchObject({
@@ -94,19 +88,3 @@ describe('favoritesModel', () => {
 		});
 	});
 });
-// describe('favoritesModel', function() {
-// 	beforeEach(async () => {
-// 		await db('favorites').truncate();
-// 	});
-// 	describe('insert()', function() {
-// 		it('should add the favortie to the database', async function() {
-// 			await Songs.associateSongAccount({
-// 				users_id : 1,
-// 				songs_id : 12,
-// 			});
-
-// 			const favorites = await db('favorites');
-// 			expect(favorites).toHaveLength(1);
-// 		});
-// 	});
-// });

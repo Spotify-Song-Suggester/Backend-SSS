@@ -3,7 +3,6 @@ const Songs = require('./songs-model');
 const router = express.Router();
 const authenticate = require('../auth/auth-middleware');
 const axios = require('axios');
-//const songData = require('../../database/db_v2.json');
 
 router.get('/', authenticate, (req, res) => {
 	Songs.getSongs()
@@ -11,26 +10,6 @@ router.get('/', authenticate, (req, res) => {
 		.then((songs) => res.status(200).json(songs))
 		.catch((error) => res.status(500).json({ error }));
 });
-
-// router.get('/:id/recommendation', async (req, res) => {
-// 	try {
-// 		const id = req.params.id;
-// 		const data = await axios.get(`https://spotify-song-suggestor.herokuapp.com/request/${id}`);
-// 		console.log(data.data.results[0]);
-// 		const results = data.data.results[0].map((songId) => {
-// 			return songData.filter((item) => {
-// 				return item.id === songId;
-// 			})[0];
-// 		});
-// 		res.json(
-// 			results.filter((result) => {
-// 				return result != null;
-// 			}),
-// 		);
-// 	} catch (error) {
-// 		res.status(500).json(error);
-// 	}
-// });
 
 router.get('/:id/recommendation', async (req, res) => {
 	const id = req.params.id;
